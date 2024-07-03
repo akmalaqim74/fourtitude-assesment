@@ -15,15 +15,27 @@ public class JumbleEngine {
      * a) pass unit test: JumbleEngineTest#scramble()
      * b) scrambled letters/output must not be the same as input
      *
-     * @param word  The input word to scramble the letters.
+     * param word  The input word to scramble the letters.
      * @return  The scrambled output/letters.
      */
-    public String scramble(String word) {
+    public String scramble(String tempWord) {
         /*
          * Refer to the method's Javadoc (above) and implement accordingly.
          * Must pass the corresponding unit tests.
          */
-        throw new UnsupportedOperationException("to be implemented");
+        List<Character> tempChar = new ArrayList<>();
+        StringBuilder word = new StringBuilder();
+        do {
+            for (char c : tempWord.toCharArray()) {
+                tempChar.add(c);
+            }
+            Collections.shuffle(tempChar);
+            for (char c : tempChar) {
+                word.append(c);
+            }
+        }while (tempWord.equals(word.toString()));
+
+        return word.toString();
     }
 
     /**
@@ -41,14 +53,47 @@ public class JumbleEngine {
      * d) pass unit test: JumbleEngineTest#palindrome()
      *
      * @return  The list of palindrome words found in system/engine.
-     * @see https://www.google.com/search?q=palindrome+meaning
+     * see https://www.google.com/search?q=palindrome+meaning
      */
     public Collection<String> retrievePalindromeWords() {
         /*
          * Refer to the method's Javadoc (above) and implement accordingly.
          * Must pass the corresponding unit tests.
          */
-        throw new UnsupportedOperationException("to be implemented");
+        Collection<String> palindromeWords = new ArrayList<>();
+        InputStream inputStream = JumbleEngine.class.getClassLoader().getResourceAsStream("words.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+
+        try {
+            //StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                if(line.equals(new StringBuilder(line).reverse().toString()) && line.length() > 1){
+                    palindromeWords.add(line);
+                }
+                line = br.readLine();
+
+            }
+
+
+        }catch (FileNotFoundException e) {
+            System.err.println("An IOException was caught: " + e.getMessage());
+            e.printStackTrace();
+        }catch (IOException e) {
+            System.err.println("An IOException was caught: " + e.getMessage());
+            e.printStackTrace();
+        }finally {
+            try{
+                br.close();
+            }catch (IOException e) {
+                System.err.println("An IOException was caught: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+        }
+
+
+       return palindromeWords;
     }
 
     /**
@@ -68,7 +113,38 @@ public class JumbleEngine {
          * Refer to the method's Javadoc (above) and implement accordingly.
          * Must pass the corresponding unit tests.
          */
-        throw new UnsupportedOperationException("to be implemented");
+        if (length == null){
+            return "length=null";
+        }
+        InputStream inputStream = JumbleEngine.class.getClassLoader().getResourceAsStream("words.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+
+        try {
+            //StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                if(line.length() == length){
+                   return line;
+                }
+                line = br.readLine();
+
+            }
+        }catch (FileNotFoundException e) {
+            System.err.println("An IOException was caught: " + e.getMessage());
+            e.printStackTrace();
+        }catch (IOException e) {
+            System.err.println("An IOException was caught: " + e.getMessage());
+            e.printStackTrace();
+        }finally {
+            try{
+                br.close();
+            }catch (IOException e) {
+                System.err.println("An IOException was caught: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+        }
+        return null;
     }
 
     /**
@@ -88,7 +164,37 @@ public class JumbleEngine {
          * Refer to the method's Javadoc (above) and implement accordingly.
          * Must pass the corresponding unit tests.
          */
-        throw new UnsupportedOperationException("to be implemented");
+        boolean tempBool = false;
+        InputStream inputStream = JumbleEngine.class.getClassLoader().getResourceAsStream("words.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+
+        try {
+            //StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                if(line.equalsIgnoreCase(word)){
+                    tempBool = true;
+                    break;
+                }
+                line = br.readLine();
+
+            }
+        }catch (FileNotFoundException e) {
+            System.err.println("An IOException was caught: " + e.getMessage());
+            e.printStackTrace();
+        }catch (IOException e) {
+            System.err.println("An IOException was caught: " + e.getMessage());
+            e.printStackTrace();
+        }finally {
+            try{
+                br.close();
+            }catch (IOException e) {
+                System.err.println("An IOException was caught: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+        }
+        return tempBool;
     }
 
     /**
@@ -112,7 +218,44 @@ public class JumbleEngine {
          * Refer to the method's Javadoc (above) and implement accordingly.
          * Must pass the corresponding unit tests.
          */
-        throw new UnsupportedOperationException("to be implemented");
+        Collection<String> prefixString = new ArrayList<>();
+        if (prefix == null || prefix.equalsIgnoreCase("")|| prefix.equals(" ") || prefix.equals("!")){
+            //prefixString.add( "prefix=null");
+            return prefixString;
+        }
+        InputStream inputStream = JumbleEngine.class.getClassLoader().getResourceAsStream("words.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+
+        try {
+            //StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                if (line.length() >= prefix.length()){
+                    String tempLine = line.substring(0,prefix.length());
+                    if(tempLine.equalsIgnoreCase(prefix)){
+                        prefixString.add(line);
+                    }
+                }
+
+
+                line = br.readLine();
+            }
+        }catch (FileNotFoundException e) {
+            System.err.println("An IOException was caught: " + e.getMessage());
+            e.printStackTrace();
+        }catch (IOException e) {
+            System.err.println("An IOException was caught: " + e.getMessage());
+            e.printStackTrace();
+        }finally {
+            try{
+                br.close();
+            }catch (IOException e) {
+                System.err.println("An IOException was caught: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+        }
+        return prefixString;
     }
 
     /**
@@ -144,7 +287,49 @@ public class JumbleEngine {
          * Refer to the method's Javadoc (above) and implement accordingly.
          * Must pass the corresponding unit tests.
          */
-        throw new UnsupportedOperationException("to be implemented");
+        Collection<String> searchWords = new ArrayList<>();
+        InputStream inputStream = JumbleEngine.class.getClassLoader().getResourceAsStream("words.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+        if (length == null && startChar == null && endChar == null ){
+            return searchWords;
+        }
+        try {
+            //StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+
+            while (line != null) {
+                int lastIndex = line.length() - 1;
+                char startCharLower = (startChar != null) ? Character.toLowerCase(startChar) : '\0';
+                char endCharLower = (endChar != null) ? Character.toLowerCase(endChar) : '\0';
+
+                boolean matchesStartChar = (startChar == null || Character.toLowerCase(line.charAt(0)) == startCharLower);
+                boolean matchesEndChar = (endChar == null || Character.toLowerCase(line.charAt(lastIndex)) == endCharLower);
+                boolean matchesLength = (length == null || line.length() == length);
+
+                if (matchesStartChar && matchesEndChar && matchesLength) {
+                    searchWords.add(line);
+                }
+                line = br.readLine();
+                }
+        }catch (FileNotFoundException e) {
+            System.err.println("An IOException was caught: " + e.getMessage());
+            e.printStackTrace();
+        }catch (IOException e) {
+            System.err.println("An IOException was caught: " + e.getMessage());
+            e.printStackTrace();
+        }finally {
+            try{
+                br.close();
+            }catch (IOException e) {
+                System.err.println("An IOException was caught: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+
+
+        return searchWords;
     }
 
     /**
@@ -175,7 +360,64 @@ public class JumbleEngine {
          * Refer to the method's Javadoc (above) and implement accordingly.
          * Must pass the corresponding unit tests.
          */
-        throw new UnsupportedOperationException("to be implemented");
+        Collection<String> subWords = new ArrayList<>();
+        Set<String> dictionary = new HashSet<>();
+        InputStream inputStream = JumbleEngine.class.getClassLoader().getResourceAsStream("words.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+        if (minLength == null) {
+            minLength = 3;
+        }
+        if (word == null || word.trim().isEmpty() ||   word.length() < minLength || minLength < 1) {
+            return new ArrayList<>();
+        }
+
+        try {
+            //StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                dictionary.add(line.trim().toLowerCase());
+            }
+
+        }catch (FileNotFoundException e) {
+            System.err.println("An IOException was caught: " + e.getMessage());
+            e.printStackTrace();
+        }catch (IOException e) {
+            System.err.println("An IOException was caught: " + e.getMessage());
+            e.printStackTrace();
+        }finally {
+            try{
+                br.close();
+            }catch (IOException e) {
+                System.err.println("An IOException was caught: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        // increment the alphabet in word, example banana = [3, 1, 0, 0, ..., 2, 0, 0] 3 a, 1 b, 2 n
+        int[] wordLetterCount = new int[26]; // 26 letters in the alphabet
+        for (char c : word.toCharArray()) {
+            wordLetterCount[c - 'a']++;
+        }
+        for (String dictWord : dictionary) {
+            if (dictWord.length() >= minLength && dictWord.length() < word.length()) {
+                // increment the alphabet in word, example banana = [3, 1, 0, 0, ..., 2, 0, 0] 3 a, 1 b, 2 n
+                int[] letterCount = new int[26]; // 26 letters in the alphabet
+                for (char c : dictWord.toCharArray()) {
+                    letterCount[c - 'a']++;
+                }
+                boolean isSubAnagram = true;
+                for (int i = 0; i < 26; i++) {
+                    if (letterCount[i] > wordLetterCount[i]) {
+                        isSubAnagram = false;
+                        break;
+                    }
+                }
+                if (isSubAnagram && dictWord.length() >= minLength) {
+                    subWords.add(dictWord);
+                }
+            }
+
+        }
+        return subWords;
     }
 
     /**
